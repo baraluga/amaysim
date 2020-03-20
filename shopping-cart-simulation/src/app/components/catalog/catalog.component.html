@@ -1,0 +1,18 @@
+<div fxLayout="column">
+  <mat-form-field>
+    <mat-label>Data Package</mat-label>
+    <mat-select [formControl]="productControl">
+      <mat-option *ngFor="let product of availableProducts"
+        [value]="product.code">{{ product.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div fxLayout="row" fxLayoutAlign="end end">
+    <button mat-raised-button [disabled]="disableAdd$ | async"
+      (click)="onAdd()">
+      <mat-icon class="icon-prefix">add</mat-icon>
+      ADD
+    </button>
+  </div>
+</div>

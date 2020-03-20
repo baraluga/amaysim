@@ -1,0 +1,21 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+  background: #ff9660;
+  padding: 16px;
+  color: white;
+}
+
+.mat-card {
+  min-width: 320px;
+  min-height: 400px;
+}
+
+.mat-selection-list {
+  max-height: 400px;
+  overflow: auto;
+}
+
+.mat-raised-button {
+  background-color: #4f83ba;
+  color: white;
+}

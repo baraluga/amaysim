@@ -16,7 +16,7 @@ export interface PricingRule {
 }
 
 export interface CartItem {
-  id: number;
+  id?: number;
   product: Product;
   applicablePrice: number;
 }

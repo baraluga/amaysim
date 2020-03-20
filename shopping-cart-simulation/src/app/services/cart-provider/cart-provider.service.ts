@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ShoppingCart, CartItem } from 'src/app/models';
-import { FRESH_CART, DEFAULT_PRICING } from 'src/app/constants';
+import { ShoppingCart, CartItem, ProductCode } from 'src/app/models';
+import { FRESH_CART, DEFAULT_PRICING, AvailableProducts } from 'src/app/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -12,10 +12,15 @@ export class ShoppingCartFacade {
 
   constructor() {}
 
-  addItem = (item: CartItem) => {
+  addItem = (product: ProductCode) => {
     const currCart = this.activeCart$.value;
-    const withId = { ...item, id: this.generateItemId() } as CartItem;
-    this.activeCart$.next({ ...currCart, items: [...currCart.items, withId] });
+    const { tarrif } = currCart.pricingRule;
+    const newItem = {
+      id: this.generateItemId(),
+      applicablePrice: tarrif[product],
+      product: AvailableProducts[product],
+    } as CartItem;
+    this.activeCart$.next({ ...currCart, items: [...currCart.items, newItem] });
   };
 
   applyPromoCode = (promo: string) => {

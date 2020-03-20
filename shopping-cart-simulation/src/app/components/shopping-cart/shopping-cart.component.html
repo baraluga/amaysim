@@ -1,0 +1,7 @@
+<div fxLayout="column wrap">
+  <mat-selection-list [formControl]="selectedItemsControl">
+    <mat-list-option *ngFor="let item of cartItems" [value]="item.id">
+      {{item?.product?.name}}
+    </mat-list-option>
+  </mat-selection-list>
+</div>
