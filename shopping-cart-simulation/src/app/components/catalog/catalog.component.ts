@@ -1,8 +1,7 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormControl, FormBuilder } from '@angular/forms';
-import { AvailableProducts } from 'src/app/constants';
-import { ProductCode } from 'src/app/models';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
+import { AvailableProducts } from 'src/app/constants';
 
 @Component({
   selector: 'app-catalog',
