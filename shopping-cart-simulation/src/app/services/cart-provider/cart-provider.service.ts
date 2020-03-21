@@ -1,35 +1,66 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ShoppingCart, CartItem, ProductCode } from 'src/app/models';
-import { FRESH_CART, DEFAULT_PRICING, AvailableProducts } from 'src/app/constants';
+import { ShoppingCart, CartItem, ProductCode, PricingRule } from 'src/app/models';
+import {
+  FRESH_CART,
+  DEFAULT_PRICING,
+  AvailableProducts,
+  ActivePromos,
+  PROMO_CODES,
+} from 'src/app/constants';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ShoppingCartFacade {
   currId = 0;
-  activeCart$ = new BehaviorSubject<ShoppingCart>(FRESH_CART);
+  private cart$ = new BehaviorSubject<ShoppingCart>(FRESH_CART);
+  activeCart$ = this.cart$.pipe(
+    map(cart => ({
+      ...cart,
+      items: ActivePromos.reduce((acc, curr) => curr(acc), cart.items),
+    })),
+  );
+  totalValue$ = this.activeCart$.pipe(
+    map(({ items, pricingRule }) =>
+      items.reduce((acc, curr) => acc + pricingRule.tarrif[curr.product.code], 0),
+    ),
+  );
+  finalPrice$ = this.activeCart$.pipe(
+    map(({ items, pricingRule }) =>
+      items.reduce((acc, curr) => acc + this.howMuch(curr, pricingRule), 0),
+    ),
+    // apply inputted promo code to final price
+    map(price => {
+      const code = this.cart$.value.promoCode;
+      const multiplier = !!!code ? 1 : PROMO_CODES[code.toLowerCase()] || 1;
+      return price * multiplier;
+    }),
+  );
 
   constructor() {}
 
   addItem = (product: ProductCode) => {
-    const currCart = this.activeCart$.value;
-    const { tarrif } = currCart.pricingRule;
+    const currCart = this.cart$.value;
     const newItem = {
       id: this.generateItemId(),
-      applicablePrice: tarrif[product],
       product: AvailableProducts[product],
     } as CartItem;
-    this.activeCart$.next({ ...currCart, items: [...currCart.items, newItem] });
+    this.cart$.next({ ...currCart, items: [...currCart.items, newItem] });
   };
 
   applyPromoCode = (promo: string) => {
-    const currCart = this.activeCart$.value;
-    this.activeCart$.next({ ...currCart, promoCode: promo });
+    const currCart = this.cart$.value;
+    this.cart$.next({ ...currCart, promoCode: promo });
   };
 
   requestCart = (rules = DEFAULT_PRICING) =>
-    this.activeCart$.next({ ...FRESH_CART, pricingRule: rules });
+    this.cart$.next({ ...FRESH_CART, pricingRule: rules });
 
   private generateItemId = () => this.currId++;
+  private howMuch = (
+    { product: { code }, applicablePrice }: CartItem,
+    { tarrif }: PricingRule,
+  ) => (applicablePrice !== undefined ? applicablePrice : tarrif[code]);
 }

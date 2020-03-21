@@ -6,6 +6,7 @@ import {
   MatSelectModule,
   MatButtonModule,
   MatListModule,
+  MatInputModule,
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -34,6 +35,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatButtonModule,
     ReactiveFormsModule,
     MatListModule,
+    MatInputModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -18,7 +18,10 @@
       </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <app-shopping-cart [cartItems]="runningList$ | async">
+      <app-shopping-cart [cartItems]="runningList$ | async"
+        [totalValue]="totalValue$ | async" [finalPrice]="finalPrice$ | async"
+        [savingsValue]="savingsValue$ | async"
+        (applyPromo)="onApplyPromo($event)" (checkout)="onCheckout()">
       </app-shopping-cart>
     </mat-card-content>
   </mat-card>

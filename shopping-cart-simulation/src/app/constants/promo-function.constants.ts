@@ -18,9 +18,9 @@ namespace PromoFunctions {
         ...curr,
         applicablePrice: isApplicable ? 0 : curr.applicablePrice,
       });
-      return acc++;
+      return ++acc;
     }, 1);
-    return [...rest, ...oneGBItems];
+    return [...rest, ...promofied];
   };
 
   /**
@@ -52,3 +52,9 @@ namespace PromoFunctions {
     return [...items, ...additionalItems];
   };
 }
+
+export const ActivePromos = [
+  PromoFunctions.bulkDiscount,
+  PromoFunctions.free1GB,
+  PromoFunctions.threeFor2,
+];

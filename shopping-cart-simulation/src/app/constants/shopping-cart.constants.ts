@@ -21,3 +21,7 @@ export const FRESH_CART: ShoppingCart = {
   promoCode: undefined,
   pricingRule: DEFAULT_PRICING,
 };
+
+export const PROMO_CODES = {
+  'i<3amaysim': 0.9,
+};

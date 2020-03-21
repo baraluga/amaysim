@@ -1,7 +1,43 @@
-<div fxLayout="column wrap">
-  <mat-selection-list [formControl]="selectedItemsControl">
-    <mat-list-option *ngFor="let item of cartItems" [value]="item.id">
-      {{item?.product?.name}}
-    </mat-list-option>
-  </mat-selection-list>
-</div>
+<form [formGroup]="cartForm">
+  <div fxLayout="column wrap" fxLayoutGap="8px">
+    <mat-selection-list class="cart-list" formControlName="selectedItems">
+      <mat-list-option *ngFor="let item of cartItems" [value]="item.id"
+        [disabled]="item.applicablePrice === 0">
+        {{item?.product?.name}}
+      </mat-list-option>
+    </mat-selection-list>
+    <!-- Total Value Display -->
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <h4>Total Value: </h4>
+      <h4>{{totalValue | currency}}</h4>
+    </div>
+
+    <!-- Checkout section -->
+    <div fxLayout="column" class="checkout-section">
+      <div fxLayout="row wrap" fxLayoutAlign="space-between">
+        <mat-form-field>
+          <mat-label>Promo Code</mat-label>
+          <input type="text" matInput formControlName="promoCode">
+          <mat-hint>Key in your promo code</mat-hint>
+        </mat-form-field>
+        <button mat-button [disabled]="applyPromoDisabled$ | async"
+          (click)="onPromoApply()">
+          APPLY
+        </button>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <h5>Savings Value: </h5>
+        <h5>{{savingsValue | currency}}</h5>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <mat-form-field>
+          <mat-label>Final Price</mat-label>
+          <input type="text" matInput disabled [value]="finalPrice | currency">
+          <mat-hint>Price after discounts</mat-hint>
+        </mat-form-field>
+        <button mat-raised-button [disabled]="checkoutDisabled$ | async"
+          (click)="onCheckout()">Checkout</button>
+      </div>
+    </div>
+  </div>
+</form>
