@@ -36,7 +36,10 @@
           <mat-hint>Price after discounts</mat-hint>
         </mat-form-field>
         <button mat-raised-button [disabled]="checkoutDisabled$ | async"
-          (click)="onCheckout()">Checkout</button>
+          (click)="onCheckout()">
+          <mat-icon>toll</mat-icon>
+          Checkout
+        </button>
       </div>
     </div>
   </div>
