@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ShoppingCart, CartItem, ProductCode, PricingRule } from 'src/app/models';
+import { map } from 'rxjs/operators';
 import {
-  FRESH_CART,
-  DEFAULT_PRICING,
-  AvailableProducts,
   ActivePromos,
+  AvailableProducts,
+  DEFAULT_PRICING,
+  FRESH_CART,
   PROMO_CODES,
 } from 'src/app/constants';
-import { map, tap } from 'rxjs/operators';
+import { CartItem, PricingRule, ProductCode, ShoppingCart } from 'src/app/models';
 
 @Injectable({
   providedIn: 'root',
@@ -54,6 +54,8 @@ export class ShoppingCartFacade {
     const currCart = this.cart$.value;
     this.cart$.next({ ...currCart, promoCode: promo });
   };
+
+  clearPromo = () => this.applyPromoCode(undefined);
 
   requestCart = (rules = DEFAULT_PRICING) =>
     this.cart$.next({ ...FRESH_CART, pricingRule: rules });

@@ -14,11 +14,15 @@
 
     <!-- Checkout section -->
     <div fxLayout="column" class="checkout-section">
-      <div fxLayout="row wrap" fxLayoutAlign="space-between">
+      <div fxLayout="row wrap" fxLayoutAlign="space-between center">
         <mat-form-field>
           <mat-label>Promo Code</mat-label>
-          <input type="text" matInput formControlName="promoCode">
-          <mat-hint>Key in your promo code</mat-hint>
+          <input type=" text" matInput formControlName="promoCode">
+          <button mat-icon-button matSuffix
+            [disabled]="!(promoApplied$ | async)" (click)="onPromoClear()">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-hint>{{ promoEffect }}</mat-hint>
         </mat-form-field>
         <button mat-button [disabled]="applyPromoDisabled$ | async"
           (click)="onPromoApply()">
@@ -26,8 +30,11 @@
         </button>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between">
-        <h5>Savings Value: </h5>
-        <h5>{{savingsValue | currency}}</h5>
+        <h5>
+          <i>Savings Value:</i></h5>
+        <h5>
+          <i>{{savingsValue | currency}}</i>
+        </h5>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between center">
         <mat-form-field>
