@@ -24,4 +24,6 @@ export const FRESH_CART: ShoppingCart = {
 
 export const PROMO_CODES = {
   'i<3amaysim': 0.9,
+  chunky: 0.5,
+  'covid-19': 0.1,
 };
