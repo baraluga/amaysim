@@ -19,6 +19,8 @@ export class ShoppingCartFacade {
   activeCart$ = this.cart$.pipe(
     map(cart => ({
       ...cart,
+      // replace cart items with "promofied" items by going through every
+      // available PromoFunctions via ActivePromos list;
       items: ActivePromos.reduce((acc, curr) => curr(acc), cart.items),
     })),
   );

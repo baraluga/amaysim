@@ -1,5 +1,5 @@
-import { CartItem, ProductCode, Product } from '../models';
-import { doNothing, subtractList } from '../utils';
+import { CartItem, Product, ProductCode } from '../models';
+import { subtractList } from '../utils';
 import { AvailableProducts } from './shopping-cart.constants';
 
 namespace PromoFunctions {
@@ -52,7 +52,6 @@ namespace PromoFunctions {
     return [...items, ...additionalItems];
   };
 }
-
 export const ActivePromos = [
   PromoFunctions.bulkDiscount,
   PromoFunctions.free1GB,
